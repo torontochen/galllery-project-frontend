@@ -16,10 +16,13 @@ export default {
     colors: {
       background: "#f9f9f9",
       primary: "#1a1a1a",
+      shadowcolor: "#6c6a6a",
     },
   },
-
-  plugins: [mtConfig],
+  corePlugins: {
+    aspectRatio: false,
+  },
+  plugins: [mtConfig, require("@tailwindcss/aspect-ratio")],
 };
 
 // const withMT = require("@material-tailwind/react/utils/withMT");
