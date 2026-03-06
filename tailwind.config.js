@@ -1,4 +1,6 @@
 import { mtConfig } from "@material-tailwind/react";
+// import "swiper/swiper-bundle.min.css";
+// import "swiper/swiper.min.css"
 
 /** @type {import('tailwindcss').Config} */
 
@@ -14,7 +16,7 @@ export default {
   theme: {
     extend: {},
     colors: {
-      background: "#f9f9f9",
+      backgroundcolor: "#f9f9f9",
       primary: "#1a1a1a",
       shadowcolor: "#6c6a6a",
     },

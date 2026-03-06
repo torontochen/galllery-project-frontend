@@ -4,17 +4,20 @@ import "./App.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./pages/RootLayout";
+import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    // errorElement: <ErrorPage />,
+    id: "root",
+    // loader: tokenLoader,
+    children: [{ index: true, element: <HomePage /> }],
   },
 ]);
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <RouterProvider router={router} />

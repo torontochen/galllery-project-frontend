@@ -1,9 +1,15 @@
-import React from "react";
+import { useSwiper } from "swiper/react";
 
 export default function Slide({ imgUrl }: { imgUrl: string }) {
+  const swiper = useSwiper();
+  // console.log(swiper);
   return (
     <>
-      <div className="w-[30vw] h-[30vh] relative flex justify-center items-center group">
+      <div
+        className="w-full h-[30vh] relative flex justify-center items-center group"
+        onMouseOver={() => swiper.autoplay.stop()}
+        onMouseOut={() => swiper.autoplay.start()}
+      >
         <img
           src="showwall1.webp"
           alt="Hero Banner"

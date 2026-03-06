@@ -1,8 +1,13 @@
+@import "swiper/css/pagination";
+@import "swiper/css/scrollbar";
+@import "swiper/css";
+@import "swiper/css/effect-coverflow";
+
 #root {
   width: 100%;
   margin: 0 auto;
   padding: 0;
-  text-align: center;
+  /* text-align: center; */
 }
 
 /* .logo {
