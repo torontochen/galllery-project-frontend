@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { IconButton, Button } from "@material-tailwind/react";
-// import Carousel from "react-spring-3d-carousel";
 import { v4 as uuid4 } from "uuid";
-// import { config } from "react-spring";
 
 import { Navigation, Pagination, Autoplay, Parallax } from "swiper/modules";
-// Import Swiper React components
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 
 import Slide from "./Slide";
@@ -39,7 +36,7 @@ function CustomNavigation() {
         variant="ghost"
         color="secondary"
         onClick={() => swiper.slidePrev()}
-        className="dark !absolute left-7 top-1/2 z-10 -translate-y-1/2"
+        className="dark !absolute left-12 top-1/2 z-10 -translate-y-1/2"
       >
         <NavArrowLeft className="h-7 w-7 -translate-x-0.5 stroke-2" />
       </IconButton>
@@ -49,7 +46,7 @@ function CustomNavigation() {
         variant="ghost"
         color="secondary"
         onClick={() => swiper.slideNext()}
-        className="dark !absolute right-7 top-1/2 z-10 -translate-y-1/2"
+        className="dark !absolute right-12 top-1/2 z-10 -translate-y-1/2"
       >
         <NavArrowRight className="h-7 w-7 translate-x-px stroke-2" />
       </IconButton>
@@ -58,7 +55,7 @@ function CustomNavigation() {
 }
 
 function customPagination(index: number, className: string) {
-  return `<span class="${className} w-1 h-1 [&.swiper-pagination-bullet-active]:!opacity-100 [&.swiper-pagination-bullet-active]:bg-[#8c8989] !opacity-50 !bg-[#8c8989]"></span>`;
+  return `<span class="${className} w-1 h-1 mt-10 [&.swiper-pagination-bullet-active]:!opacity-100 [&.swiper-pagination-bullet-active]:bg-[#121212] !opacity-50 !bg-[#474646]"></span>`;
   // `<span class="${className} w-4 h-4 [&.swiper-pagination-bullet-active]:!opacity-100 [&.swiper-pagination-bullet-active]:[background:rgb(var(--color-background))] !opacity-50 ![background:rgb(var(--color-background))]"></span>`;
 }
 
@@ -70,21 +67,20 @@ export default function HeroSection() {
     const slideList = artList.map((art: string, index: number) => {
       return {
         key: uuid4(),
-        content: <Slide imgUrl={art} />,
+        content: <Slide imgUrl={art} use="H" />,
         onClick: () => {
           console.log(`Slide ${index} clicked`);
           setGoToSlide(index);
         },
       };
     });
-    // console.log(slideList);
     setSlides(slideList);
   }, []);
   console.log(slides);
   return (
     <>
       {/* Hero Section */}
-      <div className="w-full  bg-[url('/bg-img.jpg')] bg-cover bg-center bg-no-repeat ">
+      <div className="w-full  bg-[url('/bg-img.jpg')] bg-cover bg-center bg-no-repeat z-80 ">
         <div className=" w-10/12  mx-auto py-10 flex justify-evenly items-center">
           <div className="w-4/12 flex flex-col justify-between items-start gap-y-8">
             <h3 className="text-4xl  font-bold w-full mx-auto text-left text-shadowcolor">
@@ -94,30 +90,19 @@ export default function HeroSection() {
               A sanctuary for contemporary dialogue and timeless mastery.
               Explore our current season of abstract expressionism.
             </p>
-            <Button className="text-shadowcolor  block bg-transparent hover:bg-transparent border-shadowcolor">
+            <Button className="text-shadowcolor  block bg-transparent hover:bg-transparent hover:border-opacity-50 hover:opacity-50 border-shadowcolor">
               EXPLORE CURRENT EXHIBITION
             </Button>
           </div>
 
-          <section className="w-4/12  ">
+          <section className="w-4/12 ">
             {slides.length > 0 && (
-              // <Carousel
-              //   slides={slides}
-              //   goToSlide={goToSlide}
-              //   offsetRadius={2}
-              //   showNavigation={false}
-              //   // enableSwipe={true}
-              //   animationConfig={config.gentle}
-              // />
               <Swiper
-                // install Swiper modules
-                // modules={[Navigation, Pagination, Scrollbar, A11y]}
                 spaceBetween={0}
                 slidesPerView={1}
                 autoplay={{ delay: 3500, disableOnInteraction: false }}
                 loop={true}
                 speed={2000}
-                // navigation
                 // scrollbar={{ draggable: true }}
                 onSwiper={(swiper) => console.log(swiper)}
                 onSlideChange={() => console.log("slide change")}
@@ -129,7 +114,7 @@ export default function HeroSection() {
                   renderBullet: customPagination,
                 }}
                 modules={[Navigation, Pagination, Autoplay, Parallax]}
-                className="relative self-center rounded-sm [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background"
+                className="relative  self-center rounded-sm [&_div.swiper-button-next]:text-background [&_div.swiper-button-prev]:text-background"
               >
                 {slides.map((slide) => (
                   <SwiperSlide key={slide.key}>{slide.content}</SwiperSlide>

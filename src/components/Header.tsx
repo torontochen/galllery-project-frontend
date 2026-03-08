@@ -14,8 +14,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-8/12 border-none mx-auto py-4">
-        <Navbar className="w-full flex sticky items-center justify-between bg-transparent border-none shadow-none">
+      <header className="w-full top-0 sticky border-none mx-auto bg-backgroundcolor py-4 z-50">
+        <Navbar className="w-8/12 flex mx-auto items-center justify-between bg-backgroundcolor border-none shadow-none">
           <Link to="/" className="">
             {/* {status !== "dashboard" && ( */}
             <img

@@ -6,9 +6,11 @@ import Footer from "../components/Footer";
 export default function RootLayout() {
   return (
     <>
-      <Header />
-      <Outlet />
-      <Footer />
+      <div className="overflow-scroll w-full h-[100vh]">
+        <Header />
+        <Outlet />
+        <Footer />
+      </div>
     </>
   );
 }
