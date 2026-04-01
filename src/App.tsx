@@ -5,15 +5,31 @@ import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import RootLayout from "./pages/RootLayout";
 import HomePage from "./pages/HomePage";
+import ErrorPage from "./pages/Error";
+
+import { tokenLoader } from "./utils/auth";
+import ArtistPage from "./pages/ArtistPage";
+import AuthenticationPage, {
+  action as authAction,
+} from "./pages/Authentication";
+import { logoutAction } from "./pages/LogOut";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    // errorElement: <ErrorPage />,
     id: "root",
-    // loader: tokenLoader,
-    children: [{ index: true, element: <HomePage /> }],
+    errorElement: <ErrorPage />,
+    loader: tokenLoader,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "artist", element: <ArtistPage /> },
+      {
+        path: "auth",
+        element: <AuthenticationPage />,
+        action: authAction,
+      },
+    ],
   },
 ]);
 
@@ -21,23 +37,6 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      {/* <Header />
-      <h1>Vite + React</h1>
-      <button className="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 shadow-sm hover:shadow-md bg-slate-800 border-slate-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">
-        Button
-      </button>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Footer /> */}
     </>
   );
 }

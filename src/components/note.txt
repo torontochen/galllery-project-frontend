@@ -1,0 +1,59 @@
+ <Button
+                    onClick={() => navigate(path)}
+                    className={`${
+                      title === "YOU" ? "rounded-full" : ""
+                    } bg-transparent text-shadowcolor border-none  shadow-none hover:bg-backgroundcolor`}
+                  >
+                    <Typography type="small">
+                      {title === "YOU"
+                        ? user.email
+                          ? user.first_name
+                          : title
+                        : title}
+                    </Typography>
+                    </Button>
+
+
+ <div
+                    className="dropdown group group-hover:cursor-pointer  "
+                    data-placement="bottom"
+                    onMouseOver={openDropdown}
+                    onMouseOut={closeDropdown}
+                  >
+                    <IconButton
+                      data-toggle="dropdown"
+                      isCircular
+                      size="lg"
+                      variant="ghost"
+                      color="secondary"
+                      className="bg-backgroundcolor  border-none hover:shadow-lg self-center  "
+                    >
+                      <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1 text-center" />
+                    </IconButton>
+                    <div
+                      id="dropdown"
+                      data-role="menu"
+                      className=" hidden shadow-lg  bg-backgroundcolor px-3 py-3 border-t-shadowcolor border-t-[3px] border-shadowcolor rounded-sm "
+                    >
+                      <ul className="rounded-sm">
+                        <li className="mb-2">
+                          <button
+                            className=" text-shadowcolor  hover:text-hovertextcolor  mx-0 px-0"
+                            onClick={() => changeRoute("/messages/newmessages")}
+                          >
+                            <Typography type="small">Profile</Typography>
+                          </button>
+                        </li>
+
+                        {/* <hr className="text-hovertextcolor h-[1px] my-3" /> */}
+                        <li>
+                          <button
+                            className=" text-primary hover:text-hovertextcolor mx-0 px-0"
+                            // onClick={signOut}
+                          >
+                            <Typography type="small">Sign Out</Typography>
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>

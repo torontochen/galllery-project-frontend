@@ -71,8 +71,8 @@ const YEAR = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="relative w-full pt-3 ">
-      <div className="mx-auto w-full max-w-7xl px-8 ">
+    <footer className="relative w-full pt-10  ">
+      <div className="mx-auto w-full max-w-7xl px-8  ">
         <div className="grid grid-cols-1 justify-between items-start gap-4 md:grid-cols-2 ">
           {/* <Typography type="h6" className="mb-4 font-semibold opacity-50">
             Material Tailwind

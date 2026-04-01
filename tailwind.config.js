@@ -17,7 +17,10 @@ export default {
     extend: {},
     colors: {
       backgroundcolor: "#f9f9f9",
-      primary: "#1a1a1a",
+      // primary: "#1a1a1a",
+      primary: "#6c6a6a",
+      hovertextcolor: "#c2bcbc",
+
       shadowcolor: "#6c6a6a",
     },
   },

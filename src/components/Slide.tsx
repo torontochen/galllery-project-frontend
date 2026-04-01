@@ -8,12 +8,11 @@ export default function Slide({
   use: string;
 }) {
   const swiper = useSwiper();
-  // console.log(swiper);
   return (
     <>
       {use == "H" ? (
         <div
-          className="w-full h-[30vh] relative flex justify-center items-center group"
+          className="w-full h-[30vh] relative flex justify-center items-center group border-none"
           onMouseOver={() => swiper.autoplay.stop()}
           onMouseOut={() => swiper.autoplay.start()}
         >
@@ -24,13 +23,13 @@ export default function Slide({
           /> */}
           <div
             className={` w-10/12 
-             group-hover:cursor-pointer mb-5 absolute shadow-sm
-              shadow-shadowcolor rounded-sm"`}
+             group-hover:cursor-pointer mb-5 absolute shadow-sm border-none
+              shadow-shadowcolor rounded-sm`}
           >
             <img
               src={imgUrl}
               alt="blue dream"
-              className="w-full h-full object-fill"
+              className="w-full h-full object-fill "
             />
           </div>
         </div>

@@ -26,7 +26,7 @@ const artList = [
 
 function CustomNavigation() {
   const swiper = useSwiper();
-  console.log(swiper);
+  // console.log(swiper);
 
   return (
     <>
@@ -69,14 +69,14 @@ export default function HeroSection() {
         key: uuid4(),
         content: <Slide imgUrl={art} use="H" />,
         onClick: () => {
-          console.log(`Slide ${index} clicked`);
+          // console.log(`Slide ${index} clicked`);
           setGoToSlide(index);
         },
       };
     });
     setSlides(slideList);
   }, []);
-  console.log(slides);
+  // console.log(slides);
   return (
     <>
       {/* Hero Section */}
@@ -104,8 +104,8 @@ export default function HeroSection() {
                 loop={true}
                 speed={2000}
                 // scrollbar={{ draggable: true }}
-                onSwiper={(swiper) => console.log(swiper)}
-                onSlideChange={() => console.log("slide change")}
+                // onSwiper={(swiper) => console.log(swiper)}
+                // onSlideChange={() => console.log("slide change")}
                 parallax={true}
                 pagination={{
                   enabled: true,

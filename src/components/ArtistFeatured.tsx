@@ -37,20 +37,21 @@ export default function ArtistFeatured() {
       //   colArtists.push(artList[indexOfArtistList]);
       //   indexOfArtistList++;
       // }
-      colArtists = artList.slice(i * 3 + 1, i * 3 + 3);
+      colArtists = artList.slice(i * 3, i * 3 + 3);
       masonryColArtists.push({ imgUrlList: colArtists });
       colArtists = [];
     }
+    // console.log(masonryColArtists);
     setMasonryColArtistList(masonryColArtists);
   }, []);
   return (
     <>
-      <div className="w-full  p-4 bg-[url('/bg-img1.jpeg')] bg-cover bg-center bg-no-repeat flex flex-col justify-start  items-start ">
+      <div className="w-full  py-4 bg-[url('/bg-img1.jpeg')] bg-cover bg-center bg-no-repeat flex flex-col justify-start  items-start ">
         <Button className="inline-flex justify-start bg-transparent border-none shadow-none hover:shadow-none hover:bg-transparent items-center w-8/12 mx-auto font-semibold text-lg text-shadowcolor hover:opacity-50">
           FEATURED ARTISTS
           <ArrowRight className="h-4 w-[3rem] font-black" />
         </Button>
-        <div className="w-8/12  mx-auto py-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="w-8/12  mx-auto p-4 grid grid-cols-2 gap-4 md:grid-cols-4">
           {masonryColArtistList.length > 0 &&
             masonryColArtistList.map((colArtists, index) => (
               <MasonryGalleryCol

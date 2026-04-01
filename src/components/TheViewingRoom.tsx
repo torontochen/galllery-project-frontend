@@ -46,16 +46,14 @@ export default function TheViewingRoom() {
     setSlides(slideList);
   }, []);
 
-  console.log(slides);
-
   return (
     <>
-      <div className="w-full h-[40vh] py-4 bg-[url('/bg-img2.jpg')] bg-cover bg-center bg-no-repeat flex flex-col justify-between  items-start my-6 ">
+      <div className="w-full h-[45vh] py-6 bg-[url('/bg-img2.jpg')] bg-cover bg-center bg-no-repeat flex flex-col justify-between  items-start  ">
         <Button className="inline-flex justify-start bg-transparent border-none shadow-none hover:shadow-none hover:bg-transparent items-center w-8/12 mx-auto font-semibold text-lg text-shadowcolor hover:opacity-50">
           THE VIEWING ROOM
           <ArrowRight className="h-4 w-[3rem] font-black" />
         </Button>
-        <div className="w-6/12 h-full mx-auto my-6 ">
+        <div className="w-8/12 h-full mx-auto my-6 mt-4 ">
           {slides.length > 0 && (
             <Carousel
               slides={slides}
