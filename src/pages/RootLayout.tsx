@@ -1,24 +1,33 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate, useSubmit } from "react-router-dom";
+import { Outlet, useNavigate, useSubmit, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useUserStore } from "../store/store";
+import { useUserStore, useArtStore, useArtistStore } from "../store/store";
 import { axiosPrivate } from "../api/axios";
-// import { logout } from "../utils/auth";
+import axios from "../api/axios";
+import Spinner from "../components/Spinner";
+import ToasterProvider from "../components/ToasterProvider";
 
 export default function RootLayout() {
+  const params = useParams();
+  console.log("Search params in RootLayout:", params);
   const {
     accessToken: token,
     tokenExpired: expired,
     user,
     setAccessToken,
     setUser,
+    isInitializing,
+    setIsInitializing,
   } = useUserStore();
+  const { setArts } = useArtStore();
+  const { setArtists } = useArtistStore();
   const navigate = useNavigate();
   const submit = useSubmit();
 
   useEffect(() => {
-    const checkTokenValidity = async () => {
+    setIsInitializing(true);
+    const checkRefreshToken = async () => {
       try {
         const { data } = await axiosPrivate.post("/api/auth/refresh_token", {
           headers: { "Content-Type": "application/json" },
@@ -31,15 +40,37 @@ export default function RootLayout() {
         if (!user.uid) setUser(data.user);
 
         setAccessToken(data.access_token);
+        if (!params.token) navigate("/", { replace: true });
       } catch (err) {
         console.log("Token check error:", err);
         // If the token is invalid or expired, mark it as expired in the store
         // setTokenExpired(true);
       }
     };
-    // if (token) {
-    checkTokenValidity();
-    // }
+
+    const getAllArts = async () => {
+      try {
+        const { data } = await axios.get("/api/arts/");
+        console.log("All arts:", data);
+        setArts(data);
+      } catch (err) {
+        console.log("Error fetching arts:", err);
+      }
+      setIsInitializing(false);
+    };
+
+    const getAllArtists = async () => {
+      try {
+        const { data } = await axios.get("/api/auth/");
+        console.log("All artists:", data);
+        setArtists(data);
+      } catch (err) {
+        console.log("Error fetching artists:", err);
+      }
+    };
+    checkRefreshToken();
+    getAllArts();
+    getAllArtists();
   }, []);
 
   useEffect(() => {
@@ -67,8 +98,10 @@ export default function RootLayout() {
 
   return (
     <>
-      <div className=" flex flex-col justify-between min-h-[100vh]">
+      <div className=" flex flex-col justify-start min-h-[100vh]">
+        <ToasterProvider />
         <Header />
+        {isInitializing && <Spinner />}
         <main>
           <Outlet />
         </main>

@@ -36,15 +36,15 @@ axiosPrivate.interceptors.response.use(
       // if (refreshToken) {
       try {
         // Attempt to get a new access token
-        const { data } = await axios.get(
+        const { data } = await axiosPrivate.post(
           "http://localhost:8000/api/auth/refresh_token"
         );
         console.log("Token refreshed:", data);
         // Update store with new tokens
-        setAccessToken(data.accessToken);
+        setAccessToken(data.access_token);
 
         // Retry the original request with the new token
-        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
         return axiosPrivate(originalRequest);
       } catch (refreshError) {
         // If refresh fails, log the user out

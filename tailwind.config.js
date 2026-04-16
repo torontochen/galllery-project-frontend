@@ -19,9 +19,23 @@ export default {
       backgroundcolor: "#f9f9f9",
       // primary: "#1a1a1a",
       primary: "#6c6a6a",
+      secondary: "#f9f9f9",
       hovertextcolor: "#c2bcbc",
 
       shadowcolor: "#6c6a6a",
+    },
+    animation: {
+      spin: "spin 1s linear infinite",
+    },
+    keyframes: {
+      spin: {
+        from: {
+          transform: "rotate(0deg)",
+        },
+        to: {
+          transform: "rotate(360deg)",
+        },
+      },
     },
   },
   corePlugins: {

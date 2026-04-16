@@ -17,6 +17,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* .react-international-phone-country-selector-button__dropdown-arrow {
+  color: #f9f9f9;
+  background-color: #f9f9f9;
+} */
+
 /* a {
   font-weight: 500;
   color: #646cff;

@@ -1,11 +1,11 @@
 import { redirect } from "react-router-dom";
 import { axiosPrivate } from "../api/axios";
-import axios from "../api/axios";
 import { useUserStore } from "../store/store";
+import toast from "react-hot-toast";
 
 export function getAuthToken() {
-  const token = localStorage.getItem("token");
-  return token;
+  const accessToken = useUserStore.getState().accessToken;
+  return accessToken;
 }
 
 export function tokenLoader() {
@@ -15,8 +15,8 @@ export function tokenLoader() {
 export function checkAuthLoader() {
   const token = getAuthToken();
 
-  if (!token) {
-    return redirect("/auth");
+  if (token) {
+    return redirect("/");
   }
 
   return null;
@@ -24,7 +24,7 @@ export function checkAuthLoader() {
 
 export async function logoutAction() {
   const { clearUser, setTokenExpired } = useUserStore.getState();
-  console.log("Logging out...");
+  // console.log("Logging out...");
   try {
     await axiosPrivate.post("/api/auth/logout", {
       headers: { "Content-Type": "application/json" },
@@ -35,6 +35,7 @@ export async function logoutAction() {
   } finally {
     clearUser();
     setTokenExpired(false);
-    redirect("/auth");
+    toast.success("Logged out successfully!");
+    redirect("/");
   }
 }

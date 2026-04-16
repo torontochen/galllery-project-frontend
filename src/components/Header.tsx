@@ -4,8 +4,9 @@ import {
   Typography,
   Button,
   IconButton,
+  Badge,
 } from "@material-tailwind/react";
-import { ProfileCircle } from "iconoir-react";
+import { ProfileCircle, Cart } from "iconoir-react";
 
 import { useUserStore } from "../store/store";
 import { logoutAction } from "../utils/auth";
@@ -70,13 +71,13 @@ export default function Header() {
             style={{ width: "100%" }} */}
             {/* /> */}
           </Link>
-          <ul className="mt-4 list-none flex gap-x-3 w-1/2 lg:mt-0 items-center justify-evenly ">
+          <ul className=" list-none flex gap-x-3 w-1/2 lg:mt-0 items-center justify-evenly ">
             {NavbarItems.map(({ title, path }) => (
               <li key={title}>
                 {title === "YOU" && accessToken ? (
                   <div
                     className="dropdown group group-hover:cursor-pointer  "
-                    data-placement="bottom"
+                    data-placement="bottom-start"
                     onMouseOver={openDropdown}
                     onMouseOut={closeDropdown}
                   >
@@ -86,36 +87,60 @@ export default function Header() {
                       size="lg"
                       variant="ghost"
                       color="secondary"
-                      className="bg-backgroundcolor  border-none hover:shadow-lg self-center  "
+                      className="bg-backgroundcolor  border-none hover:shadow-lg  "
                     >
-                      <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1 text-center" />
+                      <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1" />
                     </IconButton>
-                    <div
+
+                    <ul
+                      className=" hidden shadow-lg  bg-backgroundcolor px-3 py-3 border-t-shadowcolor border-t-[3px] border-shadowcolor rounded-md"
                       id="dropdown"
                       data-role="menu"
-                      className=" hidden shadow-lg  bg-backgroundcolor px-3 py-3 border-t-shadowcolor border-t-[3px] border-shadowcolor rounded-sm "
                     >
-                      <ul className="rounded-sm">
-                        <li className="mb-2">
-                          <button
-                            className=" text-shadowcolor  hover:text-hovertextcolor  mx-0 px-0"
-                            onClick={() => changeRoute("/profile")}
-                          >
-                            <Typography type="small">Profile</Typography>
-                          </button>
+                      {accessToken && (
+                        <li className="mb-2 inline-flex justify-between items-center gap-2">
+                          <Typography type="small" className="text-shadowcolor">
+                            {`Hi ${
+                              user.first_name ? user.first_name : "there"
+                            }!`}
+                          </Typography>
+                          {user.shopping_cart &&
+                            user.shopping_cart?.arts.length > 0 && (
+                              <Badge>
+                                <Badge.Content>
+                                  {/* <IconButton color="secondary"> */}
+                                  <Cart className="h-5 w-5  text-shadowcolor stroke-1 hover:cursor-pointer" />
+                                  {/* </IconButton> */}
+                                </Badge.Content>
+                                <Badge.Indicator className="bg-[red] border-[red]">
+                                  {user.shopping_cart?.arts.length}
+                                </Badge.Indicator>
+                              </Badge>
+                            )}
                         </li>
+                      )}
+                      {accessToken && (
+                        <hr className="text-hovertextcolor h-[1px] my-2 w-full" />
+                      )}
 
-                        {/* <hr className="text-hovertextcolor h-[1px] my-3" /> */}
-                        <li>
-                          <button
-                            className=" text-primary hover:text-hovertextcolor mx-0 px-0"
-                            onClick={logoutAction}
-                          >
-                            <Typography type="small">Sign Out</Typography>
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
+                      <li className="mb-2 self-stretch">
+                        <button
+                          className=" text-shadowcolor  hover:text-hovertextcolor  mx-0 px-0"
+                          onClick={() => changeRoute("/profile")}
+                        >
+                          <Typography type="small">Profile</Typography>
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          className=" text-shadowcolor hover:text-hovertextcolor mx-0 px-0"
+                          onClick={logoutAction}
+                        >
+                          <Typography type="small">Sign Out</Typography>
+                        </button>
+                      </li>
+                    </ul>
                   </div>
                 ) : (
                   <Button
@@ -125,11 +150,12 @@ export default function Header() {
                     } bg-transparent text-shadowcolor border-none  shadow-none hover:bg-backgroundcolor`}
                   >
                     <Typography type="small">
-                      {title === "YOU"
+                      {/* {title === "YOU"
                         ? user.email
                           ? user.first_name
                           : title
-                        : title}
+                        : title} */}
+                      {title}
                     </Typography>
                   </Button>
                 )}

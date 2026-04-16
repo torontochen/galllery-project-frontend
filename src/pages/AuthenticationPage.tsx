@@ -3,6 +3,7 @@ import {
   type ActionFunctionArgs,
   data as returnData,
 } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import AuthForm from "../components/AuthForm";
 import { setUser, setAccessToken, setTokenExpired } from "../store/store";
@@ -26,6 +27,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const authData = {
     email: data.get("email"),
     password: data.get("password"),
+    isTrustedDevice: data.get("trusted_device"),
   };
 
   // console.log("authData", authData);
@@ -46,6 +48,12 @@ export async function action({ request }: ActionFunctionArgs) {
     setTokenExpired(false);
 
     // navigate(from, { replace: true });
+    if (mode === "signup")
+      toast.success("Please verify your email before logging in.", {
+        duration: 6000,
+      });
+    if (mode === "login") toast.success("Logged in successfully!");
+
     return redirect("/");
     // return;
   } catch (err: any) {
