@@ -18,20 +18,20 @@ const artList = [
   "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/92b6f50b6e62fce7c674c068516919d2.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzLzkyYjZmNTBiNmU2MmZjZTdjNjc0YzA2ODUxNjkxOWQyLmpwZyIsImlhdCI6MTc3MjkwNDE1NiwiZXhwIjoxODA0NDQwMTU2fQ.2QSl4wfzWtfNVRO2SgV6Xb8LtLFuWgU2jhMmmMTD_lo",
   "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/autumn_algoma_1_lawrenharris.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL2F1dHVtbl9hbGdvbWFfMV9sYXdyZW5oYXJyaXMuanBnIiwiaWF0IjoxNzcyOTA0MTg2LCJleHAiOjE4MDQ0NDAxODZ9.g1atQcauHJlD0GvHSWd1GK9e1N91RdJazXbRWy2iS3E",
 ];
-interface masonryColArtists {
+interface MasonryColArtists {
   imgUrlList: string[];
 }
 
 export default function ArtistFeatured() {
   const [masonryColArtistList, setMasonryColArtistList] = useState<
-    masonryColArtists[]
+    MasonryColArtists[]
   >([]);
 
   useEffect(() => {
     const numberOfMasonryCols = Math.floor(artList.length / 3);
     // let indexOfArtistList = 0;
     let colArtists: string[] = [];
-    let masonryColArtists: masonryColArtists[] = [];
+    let masonryColArtists: MasonryColArtists[] = [];
     for (let i = 0; i < numberOfMasonryCols; i++) {
       // for (let j = 0; j < 3; j++) {
       //   colArtists.push(artList[indexOfArtistList]);

@@ -5,8 +5,9 @@ import Footer from "../components/Footer";
 import { useUserStore, useArtStore, useArtistStore } from "../store/store";
 import { axiosPrivate } from "../api/axios";
 import axios from "../api/axios";
-import Spinner from "../components/Spinner";
+import { Spinner } from "../components/Spinner";
 import ToasterProvider from "../components/ToasterProvider";
+import type { Art } from "../types";
 
 export default function RootLayout() {
   const params = useParams();
@@ -20,7 +21,7 @@ export default function RootLayout() {
     isInitializing,
     setIsInitializing,
   } = useUserStore();
-  const { setArts } = useArtStore();
+  const { setArts, setFilteredArts } = useArtStore();
   const { setArtists } = useArtistStore();
   const navigate = useNavigate();
   const submit = useSubmit();
@@ -53,6 +54,8 @@ export default function RootLayout() {
         const { data } = await axios.get("/api/arts/");
         console.log("All arts:", data);
         setArts(data);
+
+        setFilteredArts(data);
       } catch (err) {
         console.log("Error fetching arts:", err);
       }
@@ -109,4 +112,7 @@ export default function RootLayout() {
       </div>
     </>
   );
+}
+function setFilteredArts(updatedArts: Art[]) {
+  throw new Error("Function not implemented.");
 }

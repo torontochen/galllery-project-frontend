@@ -1,66 +1,9 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { mountStoreDevtool } from "simple-zustand-devtools";
+import { type Artist, type Art, type User } from "../types";
 
 // Define the interface for the store's state
-interface ShoppingCartItem {
-  art_id: string;
-  quantity: number;
-  description: string;
-  added_at: string;
-  price: number;
-  artist: string;
-  image_url: string;
-}
-
-interface ShoppingCart {
-  user_id: string;
-  arts: ShoppingCartItem[];
-  added_date: string;
-}
-
-interface User {
-  uid: string;
-  email: string;
-  username?: string;
-  first_name?: string;
-  last_name?: string;
-  is_verified?: boolean;
-  role: string;
-  bio?: string;
-  country?: string;
-  address?: string;
-  delivery_address?: string;
-  phone_number?: string;
-  shopping_cart?: ShoppingCart;
-}
-
-interface Art {
-  uid: string;
-  title: string;
-  description: string;
-  creation_date: string;
-  price: number;
-  status: string;
-  image_url: string;
-  transaction_id: string;
-  artist: User;
-}
-
-interface Artist {
-  uid: string;
-  username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  role: string;
-  bio: string;
-  country?: string;
-  address?: string;
-  delivery_address?: string;
-  phone_number?: string;
-  avatar_url?: string;
-}
 
 interface ArtistStore {
   artists: Artist[];
@@ -69,7 +12,9 @@ interface ArtistStore {
 
 interface ArtStore {
   arts: Art[];
+  filteredArts: Art[];
   setArts: (arts: Art[]) => void;
+  setFilteredArts: (filteredArts: Art[]) => void;
 }
 
 // type State = {
@@ -115,7 +60,9 @@ export const useArtStore = create(
   devtools<ArtStore>(
     (set, get, store) => ({
       arts: [],
+      filteredArts: [],
       setArts: (arts) => set(() => ({ arts })),
+      setFilteredArts: (filteredArts) => set(() => ({ filteredArts })),
     }),
     { name: "ArtStore" }
   )

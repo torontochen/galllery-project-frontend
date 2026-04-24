@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Navbar,
   Typography,
@@ -21,6 +21,8 @@ const NavbarItems = [
 
 export default function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const { user, accessToken } = useUserStore();
   // console.log("Header user:", user);
   // console.log("Header accessToken:", accessToken);
@@ -89,7 +91,18 @@ export default function Header() {
                       color="secondary"
                       className="bg-backgroundcolor  border-none hover:shadow-lg  "
                     >
-                      <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1" />
+                      {accessToken &&
+                      user.shopping_cart &&
+                      user.shopping_cart?.arts.length > 0 ? (
+                        <Badge>
+                          <Badge.Content>
+                            <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1" />
+                          </Badge.Content>
+                          <Badge.Indicator className="bg-[red] border-[red] mt-1"></Badge.Indicator>
+                        </Badge>
+                      ) : (
+                        <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1" />
+                      )}
                     </IconButton>
 
                     <ul
@@ -109,7 +122,10 @@ export default function Header() {
                               <Badge>
                                 <Badge.Content>
                                   {/* <IconButton color="secondary"> */}
-                                  <Cart className="h-5 w-5  text-shadowcolor stroke-1 hover:cursor-pointer" />
+                                  <Cart
+                                    className="h-5 w-5  text-shadowcolor stroke-1 hover:cursor-pointer"
+                                    onClick={() => navigate("shopping-cart")}
+                                  />
                                   {/* </IconButton> */}
                                 </Badge.Content>
                                 <Badge.Indicator className="bg-[red] border-[red]">
@@ -147,7 +163,12 @@ export default function Header() {
                     onClick={() => navigate(path)}
                     className={`${
                       title === "YOU" ? "rounded-full" : ""
-                    } bg-transparent text-shadowcolor border-none  shadow-none hover:bg-backgroundcolor`}
+                    } bg-transparent text-shadowcolor border-none  shadow-none ${
+                      path.includes(location.pathname) &&
+                      location.pathname !== "/"
+                        ? "bg-hovertextcolor text-backgroundcolor"
+                        : ""
+                    } hover:bg-backgroundcolor hover:text-shadowcolor`}
                   >
                     <Typography type="small">
                       {/* {title === "YOU"

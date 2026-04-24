@@ -11,7 +11,10 @@ import AuthenticationPage, {
   action as authAction,
 } from "./pages/AuthenticationPage";
 import ProfilePage from "./pages/ProfilePage";
+import ExhibitionPage from "./pages/ExhibitionPage";
 import ResetPassword from "./pages/ResetPassword";
+import SpecificArtPage from "./pages/SpecificArtPage";
+import ShoppingCartPage from "./pages/ShoppingCartPage";
 
 const router = createBrowserRouter([
   {
@@ -25,12 +28,24 @@ const router = createBrowserRouter([
       { path: "artist", element: <ArtistPage /> },
       {
         path: "auth",
-        loader: checkAuthLoader,
+        // loader: checkAuthLoader,
         element: <AuthenticationPage />,
         action: authAction,
       },
       { path: "profile", loader: checkAuthLoader, element: <ProfilePage /> },
       { path: "reset-password/:token", element: <ResetPassword /> },
+      {
+        path: "exhibitions",
+        element: <ExhibitionPage />,
+      },
+      {
+        path: ":uid",
+        element: <SpecificArtPage />,
+      },
+      {
+        path: "shopping-cart",
+        element: <ShoppingCartPage />,
+      },
     ],
   },
 ]);
