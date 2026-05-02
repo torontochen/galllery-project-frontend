@@ -1,5 +1,11 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate, useSubmit, useParams } from "react-router-dom";
+import {
+  Outlet,
+  useNavigate,
+  useSubmit,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useUserStore, useArtStore, useArtistStore } from "../store/store";
@@ -7,11 +13,11 @@ import { axiosPrivate } from "../api/axios";
 import axios from "../api/axios";
 import { Spinner } from "../components/Spinner";
 import ToasterProvider from "../components/ToasterProvider";
-import type { Art } from "../types";
 
 export default function RootLayout() {
   const params = useParams();
-  console.log("Search params in RootLayout:", params);
+  const location = useLocation();
+
   const {
     accessToken: token,
     tokenExpired: expired,
@@ -27,6 +33,7 @@ export default function RootLayout() {
   const submit = useSubmit();
 
   useEffect(() => {
+    if (location.state && location.state.message) return;
     setIsInitializing(true);
     const checkRefreshToken = async () => {
       try {
@@ -35,7 +42,7 @@ export default function RootLayout() {
           withCredentials: true,
         });
 
-        console.log("Token refreshed Layout:", data);
+        // console.log("Token refreshed Layout:", data);
 
         // Update store with new tokens
         if (!user.uid) setUser(data.user);
@@ -112,7 +119,4 @@ export default function RootLayout() {
       </div>
     </>
   );
-}
-function setFilteredArts(updatedArts: Art[]) {
-  throw new Error("Function not implemented.");
 }

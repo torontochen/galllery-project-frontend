@@ -13,8 +13,13 @@ import { type ShoppingCartItem } from "../types";
 export default function SpecificArtPage() {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const location = useLocation();
-  console.log("Location state in SpecificArtPage:", location.state);
-  if (!location.state) return <div>No art data available.</div>;
+  // console.log("Location state in SpecificArtPage:", location.state);
+  if (!location.state)
+    return (
+      <div className="w-full text-shadowcolor mx-auto text-lg font-semibold">
+        No art data available.
+      </div>
+    );
   const {
     title,
     description,
@@ -33,47 +38,49 @@ export default function SpecificArtPage() {
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
-    if (tokenExpired || !accessToken) {
+    if (!accessToken) {
       navigate("/auth?mode=login");
       return;
     }
 
     const item = {
       art_id: location.state.uid,
-      artist: artist.first_name,
+      artist: artist.first_name + " " + artist.last_name,
       quantity: 1,
       title,
       description,
       added_at: Date.now(),
       price,
       image_url,
+      medium,
     };
 
-    await addItemToCart({
+    const updatedShoppingCart = await addItemToCart({
       axiosPrivate,
       item,
       userID: user.uid,
     });
 
-    let arts: ShoppingCartItem[] = [];
-    const newShoppingCartItem: ShoppingCartItem = {
-      ...item,
-      added_at: item.added_at.toString(),
-    };
-    arts.push(newShoppingCartItem);
+    // let arts: ShoppingCartItem[] = user.shopping_cart      ? [...user.shopping_cart.arts]
+    //   : [];
+    // const newShoppingCartItem: ShoppingCartItem = {
+    //   ...item,
+    //   added_at: item.added_at.toString(),
+    // };
+    // arts.push(newShoppingCartItem);
 
-    const shoppingCart = {
-      user_id: user.uid,
-      arts: arts,
-      added_date: Date.now().toString(),
-    };
+    // const shoppingCart = {
+    //   user_id: user.uid,
+    //   arts: arts,
+    //   added_date: Date.now().toString(),
+    // };
 
     const newUser = user;
-    newUser.shopping_cart = shoppingCart;
+    newUser.shopping_cart = updatedShoppingCart;
     setUser(newUser);
 
     setIsAddingToCart(false);
-    navigate("/shopping-cart");
+    navigate("/shopping-cart", { replace: true });
   };
 
   return (

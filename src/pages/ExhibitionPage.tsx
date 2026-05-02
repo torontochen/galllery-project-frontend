@@ -19,6 +19,7 @@ export default function ExhibitionPage() {
   const [masonryColArtList, setMasonryColArtList] = useState<MasonryColArts[]>(
     []
   );
+  console.log("filteredArts in ExhibitionPage", filteredArts);
   const styleList = _.uniqBy(arts, "genres").map((art) => art.genres);
   styleList.unshift("All");
   // console.log("styleList", styleList);
@@ -38,11 +39,11 @@ export default function ExhibitionPage() {
   }, [style, medium, filteredArts]);
 
   useEffect(() => {
-    console.log("filteredArts", localFilteredArts);
+    // console.log("filteredArts", localFilteredArts);
     const numberOfArtsPerCol = Math.floor(localFilteredArts.length / 4);
-    console.log("numberOfArtsPerCol", numberOfArtsPerCol);
+    // console.log("numberOfArtsPerCol", numberOfArtsPerCol);
     let leftArts = localFilteredArts.length - numberOfArtsPerCol * 4;
-    console.log("leftArts", leftArts);
+    // console.log("leftArts", leftArts);
     let colArts: Art[] = [];
     let masonryColArts: MasonryColArts[] = [];
     var index = 0;
@@ -54,7 +55,7 @@ export default function ExhibitionPage() {
         );
         index = index + numberOfArtsPerCol + 1;
         leftArts--;
-        console.log("colArts", colArts);
+        // console.log("colArts", colArts);
       } else {
         colArts = localFilteredArts.slice(index, index + numberOfArtsPerCol);
         index = index + numberOfArtsPerCol;
@@ -62,7 +63,7 @@ export default function ExhibitionPage() {
       masonryColArts.push({ artList: colArts });
       colArts = [];
     }
-    console.log(masonryColArts);
+    // console.log(masonryColArts);
     setMasonryColArtList(masonryColArts);
   }, [localFilteredArts]);
 
@@ -80,7 +81,7 @@ export default function ExhibitionPage() {
           // console.log("art.uid", art);
           return cartArt.art_id === art.uid;
         });
-        console.log("isInCart", isInCart);
+        // console.log("isInCart", isInCart);
         if (!isInCart) {
           updatedArts.push(art);
         }

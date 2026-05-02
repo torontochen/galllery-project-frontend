@@ -7,12 +7,14 @@ export interface ShoppingCartItem {
   artist: string;
   image_url: string;
   title: string;
+  medium: string;
 }
 
 export interface ShoppingCart {
   user_id: string;
   arts: ShoppingCartItem[];
   added_date: string;
+  uid: string;
 }
 
 export interface User {

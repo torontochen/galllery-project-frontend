@@ -15,6 +15,7 @@ import ExhibitionPage from "./pages/ExhibitionPage";
 import ResetPassword from "./pages/ResetPassword";
 import SpecificArtPage from "./pages/SpecificArtPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
+import CheckOutPage from "./pages/CheckOutPage";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +45,13 @@ const router = createBrowserRouter([
       },
       {
         path: "shopping-cart",
+        loader: checkAuthLoader,
         element: <ShoppingCartPage />,
+      },
+      {
+        path: "checkout",
+        loader: checkAuthLoader,
+        element: <CheckOutPage />,
       },
     ],
   },

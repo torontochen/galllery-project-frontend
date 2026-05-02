@@ -28,10 +28,12 @@ interface ArtStore {
 interface UserStore {
   user: User;
   isInitializing: boolean;
+  isProcessingOrder: boolean;
   accessToken?: string;
   setUser: (user: User) => void;
   setAccessToken: (token: string) => void;
   setIsInitializing: (initializing: boolean) => void;
+  setIsProcessingOrder: (processing: boolean) => void;
   clearUser: () => void;
   tokenExpired: boolean;
   setTokenExpired: (expired: boolean) => void;
@@ -44,9 +46,12 @@ export const useUserStore = create(
       user: { uid: "", email: "", role: "" },
       accessToken: "",
       isInitializing: false,
+      isProcessingOrder: false,
       tokenExpired: false,
       setIsInitializing: (initializing) =>
         set(() => ({ isInitializing: initializing })),
+      setIsProcessingOrder: (processing) =>
+        set(() => ({ isProcessingOrder: processing })),
       setUser: (user) => set(() => ({ user })),
       setAccessToken: (token) => set(() => ({ accessToken: token })),
       clearUser: () => set(store.getInitialState()),
