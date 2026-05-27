@@ -16,7 +16,7 @@ export default function SpecificArtPage() {
   // console.log("Location state in SpecificArtPage:", location.state);
   if (!location.state)
     return (
-      <div className="w-full text-shadowcolor mx-auto text-lg font-semibold">
+      <div className="w-full text-shadowcolor mx-auto text-lg text-center font-semibold min-h-[50vh]">
         No art data available.
       </div>
     );
@@ -31,7 +31,12 @@ export default function SpecificArtPage() {
     artist,
     creation_date,
   } = location.state;
-  const { accessToken, tokenExpired, user, setUser } = useUserStore();
+  const { accessToken, user, setUser, browserWidth, browserHeight } =
+    useUserStore();
+
+  const imageHeight =
+    browserWidth >= browserHeight ? `${90 / ratio}vh` : `${90 / ratio}vw`;
+  const imageWidth = browserWidth >= browserHeight ? `90vh` : `90vw`;
   const navigate = useNavigate();
   // console.log("URL params in SpecificArtPage:", params);
   // console.log("Image URl:", image_url);
@@ -87,7 +92,7 @@ export default function SpecificArtPage() {
     <>
       <div className="w-full  bg-[url('/bg-img.jpg')] flex flex-col justify-start items-center bg-cover bg-center bg-no-repeat z-80 pb-6">
         <Button
-          className="bg-transparent font-light shadow-none border-none underline hover:bg-transparent hover:shadow-none p-3 text-md  text-shadowcolor"
+          className="bg-transparent font-medium shadow-none border-none   hover:bg-transparent hover:shadow-none p-3 text-lg  text-shadowcolor"
           onClick={() => navigate(-1)}
         >
           {`< Back`}
@@ -95,16 +100,22 @@ export default function SpecificArtPage() {
         <div
           style={{
             "--bg-image": `url(${image_url})`,
-            "--dynamic-image-height": `${80 / ratio}vh`,
+            "--dynamic-image-height": `${imageHeight}`,
+            "--dynamic-image-width": `${imageWidth}`,
           }}
-          className=" w-[80vh] h-[var(--dynamic-image-height)] bg-[image:var(--bg-image)] rounded-t-md shadow-lg bg-cover bg-center bg-no-repeat mx-auto z-80"
+          className=" w-[var(--dynamic-image-width)] h-[var(--dynamic-image-height)] bg-[image:var(--bg-image)] rounded-t-md shadow-lg bg-cover bg-center bg-no-repeat mx-auto z-80"
         ></div>
-        <div className="w-[80vh] bg-white rounded-b-md shadow-lg p-8">
+        <div
+          style={{
+            "--dynamic-image-width": `${imageWidth}`,
+          }}
+          className="w-[var(--dynamic-image-width)] bg-white rounded-b-md shadow-lg p-8"
+        >
           <Typography variant="h4" className="mb-2 text-xl font-bold">
             {title}
           </Typography>
           <Typography variant="h6" className="mb-4 font-thin">
-            By {artist.first_name} | Created on{" "}
+            By {`${artist.first_name} ${artist.last_name}`} | Created on{" "}
             {new Date(creation_date).toLocaleDateString()} | {genres} | {medium}
           </Typography>
           <Typography variant="body1" className="mb-4 font-thin">

@@ -1,57 +1,91 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { ArrowRight } from "iconoir-react";
 import { Button } from "@material-tailwind/react";
 
 import MasonryGalleryCol from "./MasonryGalleryCol";
+import { useArtStore, useArtistStore, useUserStore } from "../store/store";
 
-const artList = [
-  "https://docs.material-tailwind.com/img/team-3.jpg",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/IMG_0373.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL0lNR18wMzczLndlYnAiLCJpYXQiOjE3NzE0NTAyODIsImV4cCI6MTgwMjk4NjI4Mn0._C7XNVhuhACEs936UuysrPRZmDMAcbnwQW8Hpxuo2w4",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/IMG_1103.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL0lNR18xMTAzLndlYnAiLCJpYXQiOjE3NzE1MjA1NzIsImV4cCI6MTgwMzA1NjU3Mn0.e8XyLbiyo1URNgvQflzPwmjpXiJBTD6rwuvlOZqPxK0",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/IMG_1107.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL0lNR18xMTA3LndlYnAiLCJpYXQiOjE3NzE1MjA2MDEsImV4cCI6MTgwMzA1NjYwMX0.Mpdlsb48C-nS6EAAeUjKQR4goiy4LxAm0l9U9qrFB-s",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/IMG_3031.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL0lNR18zMDMxLmpwZWciLCJpYXQiOjE3NzE1MjA2MjMsImV4cCI6MTgwMzA1NjYyM30.C9Jorx_YS-sA8jOjXvD19L0RLwYziFZrkEo5VAKpUp8",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/Screenshot_2024-07-01_at_3.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL1NjcmVlbnNob3RfMjAyNC0wNy0wMV9hdF8zLndlYnAiLCJpYXQiOjE3NzE1MjA2NTQsImV4cCI6MTgwMzA1NjY1NH0.4lwvXdBowu0tlLn2n66RP5KIQAkSYPDrGY9xug-wsp0",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/additional_0f5009d947186fbcc31b9165f3efb271c09a8967-AICC2-7.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL2FkZGl0aW9uYWxfMGY1MDA5ZDk0NzE4NmZiY2MzMWI5MTY1ZjNlZmIyNzFjMDlhODk2Ny1BSUNDMi03LmpwZyIsImlhdCI6MTc3MTUyMDcyMywiZXhwIjoxODAzMDU2NzIzfQ.IZXprsYJS1lCBpje__ESd3IoA-0nJzBHzyoXRyJDsv0",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/IMG_2268-scaled.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL0lNR18yMjY4LXNjYWxlZC53ZWJwIiwiaWF0IjoxNzcxNTIwODAxLCJleHAiOjE4MDMwNTY4MDF9.rMsvMIGccODBteoqdjAz3WqR7Wjn8AgL_XjdeusYjVA",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/1000x1000_dbb9666a-65b1-48cc-bde7-e47f87d4937d_pnnjn_982051860.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzLzEwMDB4MTAwMF9kYmI5NjY2YS02NWIxLTQ4Y2MtYmRlNy1lNDdmODdkNDkzN2RfcG5uam5fOTgyMDUxODYwLmpwZWciLCJpYXQiOjE3NzI5MDQwNjksImV4cCI6MTgwNDQ0MDA2OX0.0nd1W0kdwul6OAi81FVltYCaM3kTgaBhiO_uj88GlCU",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/3224863-HSC00001-7.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzLzMyMjQ4NjMtSFNDMDAwMDEtNy5qcGciLCJpYXQiOjE3NzI5MDQxMTUsImV4cCI6MTgwNDQ0MDExNX0.QH5xAYAOojpB4fflv4q-RPg0GagADQOtHfHkIsfkoVo",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/92b6f50b6e62fce7c674c068516919d2.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzLzkyYjZmNTBiNmU2MmZjZTdjNjc0YzA2ODUxNjkxOWQyLmpwZyIsImlhdCI6MTc3MjkwNDE1NiwiZXhwIjoxODA0NDQwMTU2fQ.2QSl4wfzWtfNVRO2SgV6Xb8LtLFuWgU2jhMmmMTD_lo",
-  "https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/autumn_algoma_1_lawrenharris.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL2F1dHVtbl9hbGdvbWFfMV9sYXdyZW5oYXJyaXMuanBnIiwiaWF0IjoxNzcyOTA0MTg2LCJleHAiOjE4MDQ0NDAxODZ9.g1atQcauHJlD0GvHSWd1GK9e1N91RdJazXbRWy2iS3E",
-];
 interface MasonryColArtists {
   imgUrlList: string[];
 }
 
 export default function ArtistFeatured() {
+  const { artists, currentArtist } = useArtistStore();
+  const { arts, filteredArts } = useArtStore();
+  const { browserWidth } = useUserStore();
+  console.log("browserWidth in ArtistFeatured", browserWidth);
+  const navigate = useNavigate();
   const [masonryColArtistList, setMasonryColArtistList] = useState<
     MasonryColArtists[]
   >([]);
+  const [numberOfMasonryCols, setNumberOfMasonryCols] = useState<number>(0);
 
   useEffect(() => {
-    const numberOfMasonryCols = Math.floor(artList.length / 3);
+    console.log("browserWidth in ArtistFeatured", browserWidth);
+    if (browserWidth >= 768) setNumberOfMasonryCols(4);
+    if (browserWidth < 768) setNumberOfMasonryCols(2);
+  }, [browserWidth]);
+
+  useEffect(() => {
+    let featuredArtList: string[] = [];
+    filteredArts.forEach((art) => {
+      if (art.artist.uid === currentArtist.uid) {
+        featuredArtList.push(art.image_url);
+      }
+    });
+    if (featuredArtList.length > 0) {
+      featuredArtList.unshift(currentArtist.avatar_url);
+    }
+    console.log("featuredArtList", featuredArtList);
+    console.log("numberOfMasonryCols", numberOfMasonryCols);
+    const unitsPerCol = Math.floor(
+      featuredArtList.length / numberOfMasonryCols
+    );
+    console.log("unitsPerCol", unitsPerCol);
+
+    let leftArts = featuredArtList.length - unitsPerCol * numberOfMasonryCols;
+    // const numberOfMasonryCols = Math.floor(featuredArtList.length / 3);
     // let indexOfArtistList = 0;
-    let colArtists: string[] = [];
+    let colArts: string[] = [];
     let masonryColArtists: MasonryColArtists[] = [];
+    var index = 0;
+
     for (let i = 0; i < numberOfMasonryCols; i++) {
       // for (let j = 0; j < 3; j++) {
       //   colArtists.push(artList[indexOfArtistList]);
       //   indexOfArtistList++;
       // }
-      colArtists = artList.slice(i * 3, i * 3 + 3);
-      masonryColArtists.push({ imgUrlList: colArtists });
-      colArtists = [];
+      if (leftArts > 0) {
+        colArts = featuredArtList.slice(index, index + unitsPerCol + 1);
+        index = index + unitsPerCol + 1;
+        leftArts--;
+        console.log("colArts", colArts);
+      } else {
+        colArts = featuredArtList.slice(index, index + unitsPerCol);
+        index = index + unitsPerCol;
+      }
+      masonryColArtists.push({ imgUrlList: colArts });
+      colArts = [];
     }
-    // console.log(masonryColArtists);
+
+    console.log(masonryColArtists);
     setMasonryColArtistList(masonryColArtists);
-  }, []);
+  }, [arts, artists, numberOfMasonryCols]);
   return (
     <>
       <div className="w-full  py-4 bg-[url('/bg-img1.jpeg')] bg-cover bg-center bg-no-repeat flex flex-col justify-start  items-start ">
-        <Button className="inline-flex justify-start bg-transparent border-none shadow-none hover:shadow-none hover:bg-transparent items-center w-8/12 mx-auto font-semibold text-lg text-shadowcolor hover:opacity-50">
+        <Button
+          className="inline-flex justify-start bg-transparent border-none shadow-none hover:shadow-none hover:bg-transparent items-center w-8/12 mx-auto font-semibold text-lg text-shadowcolor hover:opacity-50"
+          onClick={() => navigate("/artists") /* navigate to artists page */}
+        >
           FEATURED ARTISTS
           <ArrowRight className="h-4 w-[3rem] font-black" />
         </Button>
-        <div className="w-8/12  mx-auto p-4 grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div
+          className={`w-8/12 max-sm:w-11/12  mx-auto p-4 grid grid-cols-2 gap-4 md:grid-cols-4`}
+        >
           {masonryColArtistList.length > 0 &&
             masonryColArtistList.map((colArtists, index) => (
               <MasonryGalleryCol

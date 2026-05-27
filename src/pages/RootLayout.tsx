@@ -13,6 +13,7 @@ import { axiosPrivate } from "../api/axios";
 import axios from "../api/axios";
 import { Spinner } from "../components/Spinner";
 import ToasterProvider from "../components/ToasterProvider";
+import type { Art } from "../types";
 
 export default function RootLayout() {
   const params = useParams();
@@ -26,14 +27,22 @@ export default function RootLayout() {
     setUser,
     isInitializing,
     setIsInitializing,
+    setBrowserWidth,
+    setBrowserHeight,
   } = useUserStore();
-  const { setArts, setFilteredArts } = useArtStore();
-  const { setArtists } = useArtistStore();
+  const { setArts, setFilteredArts, setViewingRoomArt, arts } = useArtStore();
+  const { setArtists, setCurrentArtist } = useArtistStore();
   const navigate = useNavigate();
-  const submit = useSubmit();
 
   useEffect(() => {
+    setBrowserWidth(window.innerWidth);
+    setBrowserHeight(window.innerHeight);
     if (location.state && location.state.message) return;
+    const handleResize = () => {
+      setBrowserWidth(window.innerWidth), setBrowserHeight(window.innerHeight);
+    };
+
+    window.addEventListener("resize", handleResize);
     setIsInitializing(true);
     const checkRefreshToken = async () => {
       try {
@@ -63,10 +72,12 @@ export default function RootLayout() {
         setArts(data);
 
         setFilteredArts(data);
+        setViewingRoomArt(data[0].image_url);
+        setIsInitializing(false);
       } catch (err) {
         console.log("Error fetching arts:", err);
+        setIsInitializing(false);
       }
-      setIsInitializing(false);
     };
 
     const getAllArtists = async () => {
@@ -74,16 +85,40 @@ export default function RootLayout() {
         const { data } = await axios.get("/api/auth/");
         console.log("All artists:", data);
         setArtists(data);
+        setCurrentArtist(data[1]);
       } catch (err) {
         console.log("Error fetching artists:", err);
       }
     };
+
     checkRefreshToken();
     getAllArts();
     getAllArtists();
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
+    if (token && user.shopping_cart && user.shopping_cart.arts.length > 0) {
+      console.log("Arts", arts);
+      console.log("user.shopping_cart.arts", user.shopping_cart.arts);
+      const cartArts = user.shopping_cart.arts;
+      let updatedArts: Art[] = [];
+      arts.forEach((art: Art) => {
+        const isInCart = cartArts.some((cartArt) => {
+          // console.log("cartArt.art_id", cartArt);
+          // console.log("art.uid", art);
+          return cartArt.art_id === art.uid;
+        });
+        // console.log("isInCart", isInCart);
+        if (!isInCart) {
+          updatedArts.push(art);
+        }
+      });
+      console.log("updatedArts", updatedArts);
+      setFilteredArts(updatedArts);
+    }
+
     if (token && expired) {
       navigate("/logout", { replace: true });
       return;
@@ -104,7 +139,7 @@ export default function RootLayout() {
     // setTimeout(() => {
     //   submit(null, { action: '/logout', method: 'post' });
     // }, tokenDuration);
-  }, [token, expired, navigate, submit]);
+  }, [token, expired, user, arts]);
 
   return (
     <>

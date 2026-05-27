@@ -11,7 +11,7 @@ interface MasonryColArts {
 
 export default function ExhibitionPage() {
   const { arts, filteredArts, setFilteredArts } = useArtStore();
-  const { user, accessToken } = useUserStore();
+  const { user, accessToken, browserWidth } = useUserStore();
   const [localFilteredArts, setLocalFilteredArts] =
     useState<Art[]>(filteredArts);
   const [style, setStyle] = useState<string>("All");
@@ -19,6 +19,8 @@ export default function ExhibitionPage() {
   const [masonryColArtList, setMasonryColArtList] = useState<MasonryColArts[]>(
     []
   );
+  const [numberOfMasonryCols, setNumberOfMasonryCols] = useState<number>(0);
+
   console.log("filteredArts in ExhibitionPage", filteredArts);
   const styleList = _.uniqBy(arts, "genres").map((art) => art.genres);
   styleList.unshift("All");
@@ -26,6 +28,14 @@ export default function ExhibitionPage() {
   const mediumList = _.uniqBy(arts, "medium").map((art) => art.medium);
   mediumList.unshift("All");
   // console.log("mediumList", mediumList);
+  console.log("browserWidth in ExhibitionPage", browserWidth);
+
+  useEffect(() => {
+    console.log("browserWidth in ArtistFeatured", browserWidth);
+    if (browserWidth > 1280) setNumberOfMasonryCols(4);
+    if (browserWidth >= 1024 && browserWidth <= 1280) setNumberOfMasonryCols(3);
+    if (browserWidth < 1024) setNumberOfMasonryCols(2);
+  }, [browserWidth]);
 
   useEffect(() => {
     let filtered = filteredArts;
@@ -40,32 +50,38 @@ export default function ExhibitionPage() {
 
   useEffect(() => {
     // console.log("filteredArts", localFilteredArts);
-    const numberOfArtsPerCol = Math.floor(localFilteredArts.length / 4);
-    // console.log("numberOfArtsPerCol", numberOfArtsPerCol);
-    let leftArts = localFilteredArts.length - numberOfArtsPerCol * 4;
-    // console.log("leftArts", leftArts);
+    const unitsPerCol = Math.floor(
+      localFilteredArts.length / numberOfMasonryCols
+    );
+    console.log("unitsPerCol", unitsPerCol);
+
+    let leftArts = localFilteredArts.length - unitsPerCol * numberOfMasonryCols;
+    // const numberOfMasonryCols = Math.floor(featuredArtList.length / 3);
+    // let indexOfArtistList = 0;
     let colArts: Art[] = [];
     let masonryColArts: MasonryColArts[] = [];
     var index = 0;
-    for (let i = 0; i < 4; i++) {
+
+    for (let i = 0; i < numberOfMasonryCols; i++) {
+      // for (let j = 0; j < 3; j++) {
+      //   colArtists.push(artList[indexOfArtistList]);
+      //   indexOfArtistList++;
+      // }
       if (leftArts > 0) {
-        colArts = localFilteredArts.slice(
-          index,
-          index + numberOfArtsPerCol + 1
-        );
-        index = index + numberOfArtsPerCol + 1;
+        colArts = localFilteredArts.slice(index, index + unitsPerCol + 1);
+        index = index + unitsPerCol + 1;
         leftArts--;
-        // console.log("colArts", colArts);
+        console.log("colArts", colArts);
       } else {
-        colArts = localFilteredArts.slice(index, index + numberOfArtsPerCol);
-        index = index + numberOfArtsPerCol;
+        colArts = localFilteredArts.slice(index, index + unitsPerCol);
+        index = index + unitsPerCol;
       }
       masonryColArts.push({ artList: colArts });
       colArts = [];
     }
     // console.log(masonryColArts);
     setMasonryColArtList(masonryColArts);
-  }, [localFilteredArts]);
+  }, [localFilteredArts, numberOfMasonryCols]);
 
   useEffect(() => {
     if (
@@ -89,13 +105,13 @@ export default function ExhibitionPage() {
       console.log("updatedArts", updatedArts);
       setFilteredArts(updatedArts);
     }
-  }, []);
+  }, [accessToken, user]);
 
   return (
     <>
       <div className="bg-[url('/bg-img.jpg')] w-full bg-cover bg-center bg-no-repeat flex flex-col justify-start items-center">
-        <div className="w-full py-4 flex justify-center items-center gap-x-10">
-          <label className="text-lg text-shadowcolor ">
+        <div className="w-full py-4 flex justify-center items-center gap-x-10 max-sm:gap-x-2">
+          <label className="text-lg max-sm:text-xs text-shadowcolor ">
             By Style:
             <select
               className="p-2 ml-1  hover:cursor-pointer  rounded-md border-2 border-shadowcolor focus:outline-none   focus:border-transparent"
@@ -114,7 +130,7 @@ export default function ExhibitionPage() {
             </select>
           </label>
 
-          <label className="text-lg text-shadowcolor">
+          <label className="text-lg max-sm:text-xs text-shadowcolor">
             By Medium:
             <select
               className="p-2 ml-1 hover:cursor-pointer  mr-4 rounded-md border-2 border-shadowcolor focus:outline-none   focus:border-transparent"
@@ -129,7 +145,7 @@ export default function ExhibitionPage() {
             </select>
           </label>
         </div>
-        <div className="w-8/12  mx-auto p-4 grid grid-cols-2 gap-1 md:grid-cols-4">
+        <div className="w-8/12 max-md:w-11/12 mx-auto p-4 grid grid-cols-2 gap-1 lg:max-xl:grid-cols-3 xl:grid-cols-4">
           {masonryColArtList.length > 0 &&
             masonryColArtList.map((colList, index) => (
               <MasonryExhibitionCol key={index} artList={colList.artList} />

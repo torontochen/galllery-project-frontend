@@ -165,9 +165,9 @@ export default function CheckOutPage() {
   return (
     <>
       <div className="w-full min-h-[70vh] bg-[url('/bg-img.jpg')]  bg-cover bg-center bg-no-repeat z-80 pb-6">
-        <div className="w-8/12 flex justify-center items-start  mt-10 bg-transparent gap-x-8 rounded-lg p-6 m-auto">
-          <div className="w-7/12 flex flex-col bg-transparent justify-start items-center gap-y-6">
-            <div className="bg-backgroundcolor w-full rounded-sm p-6 flex flex-col justify-start items-center gap-y-1">
+        <div className="xl:w-8/12 w-full max-lg:w-full flex max-md:flex-col-reverse max-md:justify-start max-md:items-center justify-center items-start  mt-10 bg-transparent gap-x-4 rounded-lg p-6 max-md:p-4 m-auto">
+          <div className="w-7/12 max-md:w-full flex flex-col bg-transparent justify-start items-center gap-y-6">
+            <div className="bg-backgroundcolor w-full rounded-sm p-6 max-md:p-4 flex flex-col justify-start items-center gap-y-1">
               <span className="text-lg font-bold inline-block w-full text-shadowcolor">{`Delivering to ${
                 user.first_name
                   ? user.first_name + " " + user.last_name
@@ -198,7 +198,7 @@ export default function CheckOutPage() {
                 </Typography>
               )}
               {(!user.delivery_address || isEditing) && (
-                <div className="w-full  bg-hovertextcolor opacity-50 rounded-sm px-4">
+                <div className="w-full  bg-hovertextcolor opacity-50 rounded-sm px-4 max-md:px-2">
                   <div className="flex justify-between  items-center w-full gap-3 ">
                     {/* first name */}
                     <div className="mb-4 mt-2 w-6/12 space-y-1.5 border-shadowcolor">
@@ -306,7 +306,7 @@ export default function CheckOutPage() {
                       />
                     </div>
                   </div>
-                  <div className="w-full inline-flex  opacity-100 justify-center items-center gap-x-3 p-3 mb-5">
+                  <div className="w-full inline-flex  opacity-100 justify-center items-center gap-x-3  mb-5">
                     <Button
                       isFullWidth
                       disabled={error !== "" || isSubmitting || !isValidPhone}
@@ -430,7 +430,7 @@ export default function CheckOutPage() {
               </ul>
             </div>
           </div>
-          <div className="w-5/12 bg-backgroundcolor top-[100px] sticky rounded-sm flex flex-col justify-start items-center p-6 gap-y-10">
+          <div className="w-5/12 max-md:w-full bg-backgroundcolor top-[90px] sticky rounded-sm flex flex-col justify-start items-center p-6 gap-y-10">
             <Button
               className="border-none bg-shadowcolor opacity-60 rounded-full w-full text-lg font-semibold"
               onClick={handlePlaceOrder}

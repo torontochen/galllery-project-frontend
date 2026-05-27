@@ -13,7 +13,7 @@
 
       th,
       td {
-        padding: 0 20px;
+        padding: 0 50px;
       }
 
       .main {
@@ -45,7 +45,7 @@
       }
 
       .image {
-        width: 30%;
+        width: 20%;
         text-align: center;
       }
 
@@ -72,7 +72,7 @@
 
       .totalAmount {
         text-overflow: ellipsis;
-        font-size: 14px;
+        font-size: 16px;
         color: #2e2d2d;
         text-align: right;
       }
@@ -82,6 +82,7 @@
         font-size: 14px;
         color: #2e2d2d;
         text-align: right;
+        width: 30%;
       }
 
       #line {
@@ -104,7 +105,7 @@
   <body>
     <table>
       <thead>
-        <tr class="main">
+        <tr>
           <th colspan="3">
             <img
               src="https://dvcentdtlqiksqjrwnvc.supabase.co/storage/v1/object/sign/arts/logo/verti-logo.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV80YmJhNWIxMi05Y2YzLTRlODQtOTI1MS05M2I0NTMxNGFlNTUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcnRzL2xvZ28vdmVydGktbG9nby5wbmciLCJpYXQiOjE3NzU4Njk4ODMsImV4cCI6MTgwNzQwNTg4M30.fg7I0Ccf2dFHND_A1HBDaAfpQVVCuSN-hH8Sx3Pcp3s"
@@ -113,7 +114,7 @@
             />
           </th>
         </tr>
-        <tr class="main">
+        <tr>
           <th colspan="3">
             <h3>Hi {{name}}:</h3>
           </th>
@@ -173,14 +174,16 @@
       <tr class="tax">
         <td></td>
         <td>Tax:</td>
-        <td>${{tax | float}}</td>
+        <td class="total-amount">${{tax | float}}</td>
       </tr>
       <tr height="5"></tr>
 
       <tr class="totalAmount">
         <td></td>
         <td><strong>Total:</strong></td>
-        <td><strong>${{total_amount | float}}</strong></td>
+        <td class="total-amount">
+          <strong>${{total_amount | float}}</strong>
+        </td>
       </tr>
       <!-- </tbody> -->
       <!-- <tfoot > -->

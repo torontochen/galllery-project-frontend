@@ -7,14 +7,18 @@ import { type Artist, type Art, type User } from "../types";
 
 interface ArtistStore {
   artists: Artist[];
+  currentArtist: Artist;
   setArtists: (artists: Artist[]) => void;
+  setCurrentArtist: (artist: Artist) => void;
 }
 
 interface ArtStore {
   arts: Art[];
   filteredArts: Art[];
+  viewingRoomArt: string;
   setArts: (arts: Art[]) => void;
   setFilteredArts: (filteredArts: Art[]) => void;
+  setViewingRoomArt: (viewingRoomArt: string) => void;
 }
 
 // type State = {
@@ -26,6 +30,8 @@ interface ArtStore {
 // };
 
 interface UserStore {
+  browserWidth: number;
+  browserHeight: number;
   user: User;
   isInitializing: boolean;
   isProcessingOrder: boolean;
@@ -37,12 +43,16 @@ interface UserStore {
   clearUser: () => void;
   tokenExpired: boolean;
   setTokenExpired: (expired: boolean) => void;
+  setBrowserWidth: (width: number) => void;
+  setBrowserHeight: (width: number) => void;
 }
 
 // Create the store with the specified type
 export const useUserStore = create(
   devtools<UserStore>(
     (set, get, store) => ({
+      browserWidth: 0,
+      browserHeight: 0,
       user: { uid: "", email: "", role: "" },
       accessToken: "",
       isInitializing: false,
@@ -56,6 +66,8 @@ export const useUserStore = create(
       setAccessToken: (token) => set(() => ({ accessToken: token })),
       clearUser: () => set(store.getInitialState()),
       setTokenExpired: (expired) => set(() => ({ tokenExpired: expired })),
+      setBrowserWidth: (width) => set(() => ({ browserWidth: width })),
+      setBrowserHeight: (height) => set(() => ({ browserHeight: height })),
     }),
     { name: "UserStore" }
   )
@@ -66,7 +78,9 @@ export const useArtStore = create(
     (set, get, store) => ({
       arts: [],
       filteredArts: [],
+      viewingRoomArt: "",
       setArts: (arts) => set(() => ({ arts })),
+      setViewingRoomArt: (viewingRoomArt) => set(() => ({ viewingRoomArt })),
       setFilteredArts: (filteredArts) => set(() => ({ filteredArts })),
     }),
     { name: "ArtStore" }
@@ -77,7 +91,19 @@ export const useArtistStore = create(
   devtools<ArtistStore>(
     (set, get, store) => ({
       artists: [],
+      currentArtist: {
+        uid: "",
+        username: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        role: "",
+        bio: "",
+        phone_number: "",
+        avatar_url: "",
+      },
       setArtists: (artists) => set(() => ({ artists })),
+      setCurrentArtist: (artist) => set(() => ({ currentArtist: artist })),
     }),
     { name: "ArtistStore" }
   )

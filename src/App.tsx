@@ -16,6 +16,9 @@ import ResetPassword from "./pages/ResetPassword";
 import SpecificArtPage from "./pages/SpecificArtPage";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
 import CheckOutPage from "./pages/CheckOutPage";
+import ViewingRoomPage from "./pages/ViewingRoomPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import UnderConstructionPage from "./pages/UnderConstructionPage";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +43,14 @@ const router = createBrowserRouter([
         element: <ExhibitionPage />,
       },
       {
+        path: "viewing-room",
+        element: <ViewingRoomPage />,
+      },
+      {
+        path: "artists",
+        element: <ArtistPage />,
+      },
+      {
         path: ":uid",
         element: <SpecificArtPage />,
       },
@@ -52,6 +63,38 @@ const router = createBrowserRouter([
         path: "checkout",
         loader: checkAuthLoader,
         element: <CheckOutPage />,
+      },
+      {
+        path: "about-us",
+        element: <AboutUsPage />,
+      },
+      {
+        path: "careers",
+        element: <UnderConstructionPage />,
+      },
+      {
+        path: "news",
+        element: <UnderConstructionPage />,
+      },
+      {
+        path: "press",
+        element: <UnderConstructionPage />,
+      },
+      {
+        path: "blog",
+        element: <UnderConstructionPage />,
+      },
+      {
+        path: "news-letter",
+        element: <UnderConstructionPage />,
+      },
+      {
+        path: "events",
+        element: <UnderConstructionPage />,
+      },
+      {
+        path: "help-center",
+        element: <UnderConstructionPage />,
       },
     ],
   },

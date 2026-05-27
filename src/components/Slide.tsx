@@ -12,7 +12,7 @@ export default function Slide({
     <>
       {use == "H" ? (
         <div
-          className="w-full h-[30vh] relative flex justify-center items-center group border-none"
+          className="w-full h-[30vh] relative flex justify-center items-center group border-none mb-[1rem]"
           onMouseOver={() => swiper.autoplay.stop()}
           onMouseOut={() => swiper.autoplay.start()}
         >
@@ -34,13 +34,13 @@ export default function Slide({
           </div>
         </div>
       ) : (
-        <div className="w-[30vw] h-[30vh] relative flex justify-center items-center group">
+        <div className="w-[30vw] h-[30vh] max-md:w-[40vw] max-md:h-[40vh] relative flex justify-center items-center group">
           <img
             src="showwall4.jpg"
             alt="Hero Banner"
             className="w-full h-full object-contain absolute top-0 left-0 group-hover:cursor-pointer "
           />
-          <div className="w-1/4  group-hover:cursor-pointer mt-5 absolute shadow-lg  shadow-shadowcolor rounded-sm">
+          <div className="w-1/4 max-md:w-1/3 group-hover:cursor-pointer mt-5 absolute shadow-lg  shadow-shadowcolor rounded-sm">
             <img
               src={imgUrl}
               alt="blue dream"

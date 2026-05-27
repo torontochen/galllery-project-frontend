@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ArrowRight } from "iconoir-react";
 import { Button } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 import Carousel from "react-spring-3d-carousel";
 import { v4 as uuid4 } from "uuid";
@@ -31,6 +32,7 @@ const artList = [
 export default function TheViewingRoom() {
   const [slides, setSlides] = useState<SlideContent[]>([]);
   const [goToSlide, setGoToSlide] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const slideList = artList.map((art: string, index: number) => {
@@ -49,11 +51,14 @@ export default function TheViewingRoom() {
   return (
     <>
       <div className="w-full h-[45vh] py-6 bg-[url('/bg-img2.jpg')] bg-cover bg-center bg-no-repeat flex flex-col justify-between  items-start  ">
-        <Button className="inline-flex justify-start bg-transparent border-none shadow-none hover:shadow-none hover:bg-transparent items-center w-8/12 mx-auto font-semibold text-lg text-shadowcolor hover:opacity-50">
+        <Button
+          className="inline-flex justify-start bg-transparent border-none shadow-none hover:shadow-none hover:bg-transparent items-center w-8/12 mx-auto font-semibold text-lg text-shadowcolor hover:opacity-50"
+          onClick={() => navigate("/viewing-room")}
+        >
           THE VIEWING ROOM
           <ArrowRight className="h-4 w-[3rem] font-black" />
         </Button>
-        <div className="w-8/12 h-full mx-auto my-6 mt-4 ">
+        <div className="w-8/12 max-sm:w-full h-full mx-auto my-6 mt-4 ">
           {slides.length > 0 && (
             <Carousel
               slides={slides}

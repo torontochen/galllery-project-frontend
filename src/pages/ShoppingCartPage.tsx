@@ -56,11 +56,11 @@ export default function ShoppingCartPage() {
     <>
       <div className="w-full min-h-[70vh] bg-[url('/bg-img.jpg')] flex flex-col justify-start items-center bg-cover bg-center bg-no-repeat z-80 pb-6">
         {user.shopping_cart && user.shopping_cart.arts.length > 0 && (
-          <div className="w-8/12 max-w-5xl mt-10 bg-backgroundcolor  rounded-lg p-6">
+          <div className="w-8/12 max-md:w-full max-w-5xl mt-10 bg-backgroundcolor  rounded-lg p-6">
             <div className="w-full my-2 flex justify-between items-center">
-              <h2 className="text-2xl font-bold mb-4  text-shadowcolor">
+              <span className="block text-2xl max-md:text-xl font-bold mb-4  text-shadowcolor">
                 Shopping Cart
-              </h2>
+              </span>
 
               <Button
                 variant="gradient"

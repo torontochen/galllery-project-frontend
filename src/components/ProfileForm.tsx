@@ -146,7 +146,7 @@ function ProfileForm() {
   return (
     <>
       <div className="w-full  bg-[url('/bg-img.jpg')] bg-cover bg-center bg-no-repeat z-80 py-12 ">
-        <Card className=" w-4/12 mx-auto  text-shadowcolor flex flex-col justify-evenly">
+        <Card className=" w-4/12 max-md:w-10/12 md:max-xl:w-8/12 mx-auto  text-shadowcolor flex flex-col justify-evenly">
           <Card.Header
             as={Card}
             className="grid h-24 place-items-center bg-shadowcolor shadow-none"
@@ -210,7 +210,7 @@ function ProfileForm() {
 
             <div className="flex justify-between  items-center w-full gap-y-3 gap-x-3 px-1">
               {/* Phone Number */}
-              <div className="mb-4 space-y-1.5 w-6/12">
+              <div className="mb-4 space-y-1.5 w-6/12 max-md:w-7/12">
                 <Typography
                   as="label"
                   htmlFor="phone"
@@ -253,7 +253,7 @@ function ProfileForm() {
               </div>
 
               {/* Password */}
-              <div className="mb-4 space-y-1.5 w-6/12 ">
+              <div className="mb-4 space-y-1.5 w-6/12 max-md:w-5/12">
                 <Typography
                   as="label"
                   htmlFor="password"

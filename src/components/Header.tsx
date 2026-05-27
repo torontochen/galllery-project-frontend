@@ -1,12 +1,18 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import {
   Navbar,
   Typography,
   Button,
   IconButton,
   Badge,
+  Drawer,
+  Card,
+  List,
+  Collapse,
+  DrawerDismissTrigger,
 } from "@material-tailwind/react";
-import { ProfileCircle, Cart } from "iconoir-react";
+import { ProfileCircle, Cart, Xmark, Menu, NavArrowRight } from "iconoir-react";
 
 import { useUserStore } from "../store/store";
 import { logoutAction } from "../utils/auth";
@@ -15,7 +21,6 @@ const NavbarItems = [
   { title: "EXHIBITIONS", path: "/exhibitions" },
   { title: "ARTISTS", path: "/artists" },
   { title: "VIEWING ROOM", path: "/viewing-room" },
-  { title: "ABOUT", path: "/about" },
   { title: "YOU", path: "/auth?mode=login" },
 ];
 
@@ -24,6 +29,7 @@ export default function Header() {
   const location = useLocation();
 
   const { user, accessToken } = useUserStore();
+  const [isOpen, setIsOpen] = useState(false);
   // console.log("Header user:", user);
   // console.log("Header accessToken:", accessToken);
 
@@ -49,7 +55,7 @@ export default function Header() {
   return (
     <>
       <header className="w-full top-0 sticky border-none mx-auto bg-backgroundcolor py-4 z-50">
-        <Navbar className="w-8/12 flex mx-auto items-center justify-between bg-backgroundcolor border-none shadow-none">
+        <Navbar className="xl:w-8/12 w-9/12 max-md:hidden flex mx-auto items-center justify-between bg-backgroundcolor border-none shadow-none">
           <Link to="/" className="">
             {/* {status !== "dashboard" && ( */}
             <img
@@ -73,7 +79,7 @@ export default function Header() {
             style={{ width: "100%" }} */}
             {/* /> */}
           </Link>
-          <ul className=" list-none flex gap-x-3 w-1/2 lg:mt-0 items-center justify-evenly ">
+          <ul className=" list-none flex gap-x-1 w-8/12  lg:w-6/12 lg:mt-0 items-center justify-evenly ">
             {NavbarItems.map(({ title, path }) => (
               <li key={title}>
                 {title === "YOU" && accessToken ? (
@@ -183,6 +189,188 @@ export default function Header() {
               </li>
             ))}
           </ul>
+        </Navbar>
+
+        <Navbar className="md:hidden  w-10/12 flex mx-auto items-center justify-between bg-backgroundcolor border-none shadow-none">
+          <Link to="/" className="">
+            <img
+              src="/logo/hori-logo.png"
+              alt="logo"
+              className="inline-block mb-1  hover:cursor-pointer max-lg:hidden "
+              width={80}
+              height={25}
+              onClick={() => console.log("logo clicked")}
+            />
+            <img
+              src="/logo/hori-logo.png"
+              alt="logo"
+              className="inline-block mb-1  hover:cursor-pointer lg:hidden "
+              width={180}
+              height={35}
+              onClick={() => console.log("logo clicked")}
+            />
+          </Link>
+
+          <Drawer>
+            <Drawer.Trigger
+              as={Button}
+              className="bg-backgroundcolor text-lg text-black border-none shadow-none"
+            >
+              <Menu className="h-7 w-7 stroke-1" />
+            </Drawer.Trigger>
+            <Drawer.Overlay>
+              <Drawer.Panel placement="right" className="p-0 w-5/12">
+                <div className="flex items-center justify-between gap-2">
+                  <Drawer.DismissTrigger
+                    size="sm"
+                    variant="ghost"
+                    color="secondary"
+                    className="absolute right-4 top-2"
+                    isCircular
+                  >
+                    <Xmark className="h-4 w-4" />
+                  </Drawer.DismissTrigger>
+                </div>
+                <Card className="border-none shadow-none">
+                  <Card.Body className="w-full p-0">
+                    <ul className="mt-10 py-2 px-3 space-y-4">
+                      {NavbarItems.map(({ title, path }) => (
+                        <li
+                          key={title}
+                          onClick={() => setIsOpen((cur) => !cur)}
+                        >
+                          {title === "YOU" && accessToken ? (
+                            <div
+                              className="dropdown group group-hover:cursor-pointer  "
+                              // data-placement="bottom-start"
+                              onMouseOver={openDropdown}
+                              onMouseOut={closeDropdown}
+                            >
+                              {accessToken &&
+                              user.shopping_cart &&
+                              user.shopping_cart?.arts.length > 0 ? (
+                                <div className=" w-full flex items-center justify-between pr-2">
+                                  <IconButton
+                                    isCircular
+                                    size="sm"
+                                    variant="ghost"
+                                    color="secondary"
+                                    className="bg-backgroundcolor  border-none  "
+                                  >
+                                    <Badge>
+                                      <Badge.Content>
+                                        <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1" />
+                                      </Badge.Content>
+                                      <Badge.Indicator className="bg-[red] border-[red] mt-1"></Badge.Indicator>
+                                    </Badge>
+                                  </IconButton>
+
+                                  <NavArrowRight
+                                    className={`h-4 w-4 ${
+                                      isOpen ? "rotate-90" : ""
+                                    }`}
+                                  />
+                                </div>
+                              ) : (
+                                <div className=" w-full flex items-center justify-between">
+                                  <IconButton
+                                    isCircular
+                                    size="sm"
+                                    variant="ghost"
+                                    color="secondary"
+                                    className="bg-backgroundcolor  border-none   "
+                                    onClick={() => setIsOpen((cur) => !cur)}
+                                  >
+                                    <ProfileCircle className="h-8 w-8 text-shadowcolor translate-x-px stroke-1" />
+                                  </IconButton>
+                                  <NavArrowRight
+                                    className={`h-4 w-4 ${
+                                      isOpen ? "rotate-90" : ""
+                                    }`}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <Drawer.DismissTrigger
+                              onClick={() => {
+                                navigate(path);
+                              }}
+                              className={`${
+                                title === "YOU" ? "rounded-full" : ""
+                              } bg-transparent text-shadowcolor border-none  shadow-none ${
+                                path.includes(location.pathname) &&
+                                location.pathname !== "/"
+                                  ? "bg-hovertextcolor text-backgroundcolor"
+                                  : ""
+                              } hover:bg-backgroundcolor hover:text-shadowcolor`}
+                            >
+                              <Typography type="small">{title}</Typography>
+                            </Drawer.DismissTrigger>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                    {isOpen && (
+                      <hr className="text-hovertextcolor h-[1px] my-2 w-full" />
+                    )}
+                    <Collapse open={isOpen}>
+                      <ul className="   bg-white px-4 py-2  text-left">
+                        {accessToken && (
+                          <li className="mb-2 inline-flex justify-between items-center gap-8">
+                            <Typography
+                              type="small"
+                              className="text-shadowcolor"
+                            >
+                              {`Hi ${
+                                user.first_name ? user.first_name : "there"
+                              }!`}
+                            </Typography>
+                            {user.shopping_cart &&
+                              user.shopping_cart?.arts.length > 0 && (
+                                <Drawer.DismissTrigger>
+                                  <Badge>
+                                    <Badge.Content>
+                                      <Cart
+                                        className="h-5 w-5 text-sm text-shadowcolor stroke-1 hover:cursor-pointer"
+                                        onClick={() =>
+                                          navigate("shopping-cart")
+                                        }
+                                      />
+                                    </Badge.Content>
+                                    <Badge.Indicator className="bg-[red] border-[red]">
+                                      {user.shopping_cart?.arts.length}
+                                    </Badge.Indicator>
+                                  </Badge>
+                                </Drawer.DismissTrigger>
+                              )}
+                          </li>
+                        )}
+
+                        <li className="mb-2 self-stretch">
+                          <Drawer.DismissTrigger
+                            className=" text-shadowcolor  hover:text-hovertextcolor  mx-0 px-0"
+                            onClick={() => changeRoute("/profile")}
+                          >
+                            <Typography type="small">Profile</Typography>
+                          </Drawer.DismissTrigger>
+                        </li>
+
+                        <li>
+                          <Drawer.DismissTrigger
+                            className=" text-shadowcolor hover:text-hovertextcolor mx-0 px-0"
+                            onClick={logoutAction}
+                          >
+                            <Typography type="small">Sign Out</Typography>
+                          </Drawer.DismissTrigger>
+                        </li>
+                      </ul>
+                    </Collapse>
+                  </Card.Body>
+                </Card>
+              </Drawer.Panel>
+            </Drawer.Overlay>
+          </Drawer>
         </Navbar>
       </header>
     </>

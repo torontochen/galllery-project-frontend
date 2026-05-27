@@ -1,67 +1,53 @@
 import { Typography, IconButton } from "@material-tailwind/react";
 import { Facebook, Instagram, X, Github, Dribbble } from "iconoir-react";
+import { Link } from "react-router-dom";
 
 const LINKS = [
   {
-    title: "Product",
+    title: "Gallery",
     items: [
       {
-        title: "Overview",
-        href: "#",
+        title: "About us",
+        href: "about-us",
       },
       {
-        title: "Features",
-        href: "#",
-      },
-      {
-        title: "Solutions",
-        href: "#",
-      },
-      {
-        title: "Tutorials",
-        href: "#",
+        title: "Careers",
+        href: "careers",
       },
     ],
   },
   {
-    title: "Company",
+    title: "Publication",
     items: [
       {
-        title: "About us",
-        href: "#",
-      },
-      {
-        title: "Careers",
-        href: "#",
-      },
-      {
         title: "Press",
-        href: "#",
+        href: "press",
       },
       {
         title: "News",
-        href: "#",
+        href: "news",
+      },
+      {
+        title: "Blog",
+        href: "blog",
       },
     ],
   },
+
   {
     title: "Resource",
     items: [
       {
-        title: "Blog",
-        href: "#",
-      },
-      {
         title: "Newsletter",
-        href: "#",
+        href: "news-letter",
       },
       {
         title: "Events",
-        href: "#",
+        href: "events",
       },
       {
         title: "Help center",
-        href: "#",
+        href: "help-center",
       },
     ],
   },
@@ -73,7 +59,7 @@ export default function Footer() {
   return (
     <footer className="relative w-full pt-10  ">
       <div className="mx-auto w-full max-w-7xl px-8  ">
-        <div className="grid grid-cols-1 justify-between items-start gap-4 md:grid-cols-2 ">
+        <div className="grid grid-cols-1 justify-end items-start gap-4 md:grid-cols-2 ">
           {/* <Typography type="h6" className="mb-4 font-semibold opacity-50">
             Material Tailwind
           </Typography> */}
@@ -85,20 +71,16 @@ export default function Footer() {
             height={0}
             onClick={() => console.log("logo clicked")}
           />
-          <div className="grid grid-cols-3 justify-between gap-x-10 gap-y-4 ">
+          <div className="grid grid-cols-3 justify-end gap-x-10 gap-y-4  ">
             {LINKS.map(({ title, items }) => (
-              <ul key={title}>
-                <Typography className=" font-bold opacity-75 text-shadowcolor ">
+              <ul key={title} className="justify-self-center">
+                <Typography className=" font-bold opacity-75  ">
                   {title}
                 </Typography>
                 {items.map(({ title, href }) => (
                   <li key={title}>
-                    <Typography
-                      as="a"
-                      href={href}
-                      className="py-1 hover:text-shadowcolor text-sm  font-medium transition-colors"
-                    >
-                      {title}
+                    <Typography className="py-1 hover:text-hovertextcolor text-sm  text-shadowcolor font-medium transition-colors">
+                      <Link to={href}>{title}</Link>
                     </Typography>
                   </li>
                 ))}

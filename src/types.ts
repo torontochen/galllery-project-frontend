@@ -23,7 +23,6 @@ export interface User {
   username?: string;
   first_name?: string;
   last_name?: string;
-  is_verified?: boolean;
   role: string;
   bio?: string;
   country?: string;
@@ -31,6 +30,7 @@ export interface User {
   delivery_address?: string;
   phone_number?: string;
   shopping_cart?: ShoppingCart;
+  avatar_url?: string;
 }
 
 export interface Art {
@@ -58,6 +58,6 @@ export interface Artist {
   country?: string;
   address?: string;
   delivery_address?: string;
-  phone_number?: string;
-  avatar_url?: string;
+  phone_number: string;
+  avatar_url: string;
 }
